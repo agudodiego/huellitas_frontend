@@ -50,7 +50,7 @@ function displayPet(pet) {
           <div class="col text-center">
             <img 
               src="${selectImage(pet.petPicture, pet.petType)}"
-              alt="Foto de ${pet.petName ?? 'Mascota'}"
+              alt="Foto de ${pet.petName || 'Mascota'}"
               class="img-fluid rounded-3"
               style="max-width: 150px;"
             >
@@ -59,12 +59,12 @@ function displayPet(pet) {
 
         <div class="row mb-2">
           <div class="col-4 fw-bold">Nombre:</div>
-          <div class="col-8">${pet.petName ?? '❓'}</div>
+          <div class="col-8">${pet.petName || '❓'}</div>
         </div>
 
         <div class="row mb-2">
           <div class="col-4 fw-bold">Dueño:</div>
-          <div class="col-8">${pet.ownerName ?? '❓'}</div>
+          <div class="col-8">${pet.ownerName || '❓'}</div>
         </div>
 
         <div class="row mb-2">
@@ -73,7 +73,7 @@ function displayPet(pet) {
         </div>
 
         <div class="row mb-2">
-          <div class="col-12">${pet.note ?? '❓'}</div>
+          <div class="col-12">${pet.note || '❓'}</div>
         </div>
 
         <div class="row mt-3">

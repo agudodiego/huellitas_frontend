@@ -1,21 +1,28 @@
 const sheet = document.querySelector('.bottom-sheet');
+const panelColapsable = document.getElementById('panelColapsable');
 
+// ************************* EJECUCION PRINCIPAL ******************************
+// const codigo = getCodigoFromUrl();
+// if (!codigo) {
+//   mostrarMensaje('No se encontró el código en la URL.');
+//   return;
+// }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // const codigo = getCodigoFromUrl();
-  // if (!codigo) {
-  //   mostrarMensaje('No se encontró el código en la URL.');
-  //   return;
-  // }
+const codigo = 'PET-00123'; // Código fijo para pruebas
+fetchPet(codigo);
 
-  const codigo = 'PET-00123'; // Código fijo para pruebas
-  fetchPet(codigo);
+panelColapsable.addEventListener('click', (e) => {
+
+  // 1) Click en la pestaña (#paw)
+  if (e.target.closest('#paw')) {
+    sheet.classList.toggle('expanded');
+    sheet.classList.toggle('collapsed');
+    return; // detenemos aquí
+  }  
+
 });
 
-sheet.addEventListener('click', () => {
-  sheet.classList.toggle('expanded');
-  sheet.classList.toggle('collapsed');
-});
+// ************************* FUNCIONES ******************************
 
 function getCodigoFromUrl() {
   // Extrae el último segmento del path
@@ -32,6 +39,7 @@ async function fetchPet(codigo) {
     const res = await fetch(API_URL);
     if (!res.ok) throw new Error('Mascota no encontrada');
     const pet = await res.json();
+    console.log(pet);
     //displayPet(pet);
   } catch (err) {
     mostrarMensaje('Error al obtener los datos de la mascota.');
@@ -125,8 +133,8 @@ function convertirEdad(fechaNacimientoStr) {
 
   if (años > 0 && meses > 0) {
     return `${años} año${años > 1 ? 's' : ''} y ${meses} mes${meses > 1 ? 'es' : ''}`;
-  } 
-  
+  }
+
   if (años > 0) {
     return `${años} año${años > 1 ? 's' : ''}`;
   } else {
@@ -144,7 +152,7 @@ function limpiarTelefono(numero) {
 
 
 function selectImage(img, petType) {
-  
+
   if (img) return img;
 
   switch (petType.toLowerCase()) {

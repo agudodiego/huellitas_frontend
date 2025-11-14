@@ -2,14 +2,18 @@ const sheet = document.querySelector('.bottom-sheet');
 const panelColapsable = document.getElementById('panelColapsable');
 
 // ************************* EJECUCION PRINCIPAL ******************************
-// const codigo = getCodigoFromUrl();
-// if (!codigo) {
-//   mostrarMensaje('No se encontró el código en la URL.');
-//   return;
-// }
 
-const codigo = 'PET-00123'; // Código fijo para pruebas
-fetchPet(codigo);
+const codigo = getCodigoFromUrl();
+console.log('Código extraído de la URL:', codigo);
+if (!codigo) {
+  // Dejo el html cargado con la mascota mock
+  mostrarMensaje('No se encontró el código en la URL.');
+} else {
+  //const codigo = 'PET-00123'; // Código fijo para pruebas
+  fetchPet(codigo);
+}
+
+// ************************* MANEJO DE EVENTOS ******************************
 
 panelColapsable.addEventListener('click', (e) => {
 
@@ -22,7 +26,7 @@ panelColapsable.addEventListener('click', (e) => {
 
 });
 
-// ************************* FUNCIONES ******************************
+// ************************* FUNCIONES AUXILIARES ******************************
 
 function getCodigoFromUrl() {
   // Extrae el último segmento del path

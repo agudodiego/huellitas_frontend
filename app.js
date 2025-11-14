@@ -1,11 +1,20 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const codigo = getCodigoFromUrl();
-  if (!codigo) {
-    mostrarMensaje('No se encontró el código en la URL.');
-    return;
-  }
+const sheet = document.querySelector('.bottom-sheet');
 
+
+document.addEventListener('DOMContentLoaded', () => {
+  // const codigo = getCodigoFromUrl();
+  // if (!codigo) {
+  //   mostrarMensaje('No se encontró el código en la URL.');
+  //   return;
+  // }
+
+  const codigo = 'PET-00123'; // Código fijo para pruebas
   fetchPet(codigo);
+});
+
+sheet.addEventListener('click', () => {
+  sheet.classList.toggle('expanded');
+  sheet.classList.toggle('collapsed');
 });
 
 function getCodigoFromUrl() {
@@ -16,13 +25,14 @@ function getCodigoFromUrl() {
 }
 
 async function fetchPet(codigo) {
-  const API_URL = `/apiHuellitas/pet/${codigo}`;
+  const API_URL = `https://huellitas.diegoagudo.com.ar/apiHuellitas/pet/${codigo}`; //borrar esta linea para produccion
+  // const API_URL = `/apiHuellitas/pet/${codigo}`;
   try {
     mostrarMensaje('Cargando datos...');
     const res = await fetch(API_URL);
     if (!res.ok) throw new Error('Mascota no encontrada');
     const pet = await res.json();
-    displayPet(pet);
+    //displayPet(pet);
   } catch (err) {
     mostrarMensaje('Error al obtener los datos de la mascota.');
     console.error(err);

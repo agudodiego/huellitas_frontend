@@ -1,64 +1,135 @@
-/* Estilos mínimos */
-:root{
-  --footer-h: 64px;
-}
-
-html, body {
-  height: 100%;
+/* === RESET BÁSICO === */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-#appBody {
-  min-height: 100vh;                 /* ocupa toda la altura visible */
-  background-color: #4491d8;         /* color base */
-  background-image: url('images/background.png');
-  background-position: center center;
-  background-size: cover;            /* 🔹 adapta la imagen al alto y ancho */
-  background-repeat: no-repeat;
-  /* Evitar saltos en iOS/Android */
-  background-attachment: scroll;    /* quita el fixed */
+/* === ESTILOS GENERALES === */
+body {
+  background: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: sans-serif;
 }
 
-/* opcional: mejora el aspecto del "vidrio" en móviles */
-.card-glass {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(10px) saturate(180%);
-  -webkit-backdrop-filter: blur(10px) saturate(180%);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+/* === CONTENEDOR PRINCIPAL === */
+.container {
+  position: relative;
+  width: 360px;
+  height: 640px;
+  background: #222;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
 }
 
-/* Footer fijo abajo */
-.app-footer{
-  position: fixed;
-  left: 0;
-  right: 0;
+/* === SECCIÓN DE IMAGEN (A) === */
+.image-section {
+  position: relative;
+  height: 40%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* === PANEL INTERMEDIO (B) === */
+.panel {
+  position: relative;
+  width: 100%;
+  height: 70%;
+  background: rgba(209, 209, 209, 0.9); /* con leve transparencia */
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  padding: 1.2rem;
+  margin-top: -20px; /* solapa sobre la imagen */
+  z-index: 2;
+
+  /* 🌟 EFECTO VISUAL MEJORADO 🌟 */
+  box-shadow: 0 -6px 12px rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* === PANEL INFERIOR (C) === */
+.bottom-sheet {
+  position: absolute;
   bottom: 0;
-
-  height: var(--footer-h);
+  width: 100%;
+  height: 55%;
+  background: #111;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  transition: transform 0.4s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 3;
+}
+
+/* === CÍRCULO CON HUELLA === */
+.bottom-sheet .tab {
+  position: absolute;
+  top: -18px;
+  width: 36px;
+  height: 36px;
+  background: #111;
+  border-radius: 50%;
+  display: flex;
   justify-content: center;
-
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-top: 1px solid rgba(255,255,255,0.25);
-  z-index: 1000; /* por encima del contenido */
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 6px); /* notch */
+  align-items: center;
+  box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  transition: transform 0.4s ease;
 }
 
-/* Dejá espacio para que el contenido no quede tapado por el footer */
-main#petInfo{
-  padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom, 0px));
+.bottom-sheet .tab img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  transition: transform 0.7s ease;
 }
 
-/* Si usabas min-vh-100, podés dejarlo. Evitá background-attachment: fixed en mobile */
-#appBody{
-  background-attachment: scroll;
+/* 🔄 Giro de la huellita cuando el panel está expandido */
+.bottom-sheet.expanded .tab img {
+  transform: rotate(180deg);
 }
 
+/* Contenido interno del panel negro */
+.bottom-sheet .content {
+  color: white;
+  text-align: center;
+  padding: 2.5rem 1rem 1rem;
+  width: 100%;
+}
 
+/* === COMPORTAMIENTO DEL PANEL INFERIOR === */
+
+/* Estado colapsado */
+.bottom-sheet.collapsed {
+  transform: translateY(80%);
+  /* ↑ Aumentar este valor (ej. 80%) para más cerrado
+     o reducirlo (ej. 50%) para dejarlo más abierto */
+}
+
+/* Estado expandido */
+.bottom-sheet.expanded {
+  transform: translateY(0);
+}
+
+/* === Adaptación móvil === */
+@media (max-width: 480px) {
+  .container {
+    width: 100%;
+    height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}

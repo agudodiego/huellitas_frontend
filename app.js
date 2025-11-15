@@ -1,29 +1,55 @@
-const sheet = document.querySelector('.bottom-sheet');
-const panelColapsable = document.getElementById('panelColapsable');
+const $sheet = document.querySelector('.bottom-sheet');
+const $buttons = document.querySelector('.buttons');
+const $panelColapsable = document.getElementById('panelColapsable');
+const $nombreMascota = document.getElementById("nombreMascota");
+const $contactoMascota = document.getElementById("contactoMascota");
+const $edadMascota = document.getElementById("edadMascota");
+const $notaMascota = document.getElementById("notaMascota");
+const $imagenMascota = document.getElementById("imagen");
+const $petCard = document.querySelector('.pet-card');
+const $titulo = document.getElementById('titulo');
 
 // ************************* EJECUCION PRINCIPAL ******************************
-
+let numContacto = null;
 const codigo = getCodigoFromUrl();
 console.log('Código extraído de la URL:', codigo);
 if (!codigo) {
   // Dejo el html cargado con la mascota mock
   mostrarMensaje('No se encontró el código en la URL.');
-} else {
-  //const codigo = 'PET-00123'; // Código fijo para pruebas
+} else {  
   fetchPet(codigo);
 }
 
 // ************************* MANEJO DE EVENTOS ******************************
 
-panelColapsable.addEventListener('click', (e) => {
+$panelColapsable.addEventListener('click', (e) => {
 
   // 1) Click en la pestaña (#paw)
   if (e.target.closest('#paw')) {
-    sheet.classList.toggle('expanded');
-    sheet.classList.toggle('collapsed');
-    return; // detenemos aquí
-  }  
+    $sheet.classList.toggle('expanded');
+    $sheet.classList.toggle('collapsed');
+    $buttons.classList.toggle('hidden');
+    $petCard.classList.toggle('hidden');
+    $titulo.classList.toggle('hidden');
 
+    return;
+  }
+
+    // --- CLICK EN ICONO WHATSAPP ---
+  if (e.target.closest('#whapp')) {
+    if (numContacto) {
+      window.open(`https://wa.me/${numContacto}`, "_blank");
+    }
+    return;
+  }
+
+  // --- CLICK EN ICONO TELEFONO ---
+  if (e.target.closest('#phone')) {
+    if (numContacto) {
+      window.location.href = `tel:${limpiarTelefono(numContacto)}`;
+    }
+    return;
+  }
 });
 
 // ************************* FUNCIONES AUXILIARES ******************************
@@ -43,8 +69,8 @@ async function fetchPet(codigo) {
     const res = await fetch(API_URL);
     if (!res.ok) throw new Error('Mascota no encontrada');
     const pet = await res.json();
-    console.log(pet);
-    //displayPet(pet);
+    // console.log(pet);
+    displayPet(pet);
   } catch (err) {
     mostrarMensaje('Error al obtener los datos de la mascota.');
     console.error(err);
@@ -57,68 +83,13 @@ function mostrarMensaje(msg) {
 }
 
 function displayPet(pet) {
-  console.log(pet.contact);
-  const container = document.getElementById('petInfo');
-
-  // Limpia contenido anterior
-  container.innerHTML = '';
-
-  // bloque de HTML con backticks
-  const petHTML = `
-    <div class="card card-glass text-dark mx-auto" style="max-width: 500px;">
-      <div class="card-body">        
-
-        <div class="row mb-2">
-          <div class="col text-center">
-            <img 
-              src="${selectImage(pet.petPicture, pet.petType)}"
-              alt="Foto de ${pet.petName || 'Mascota'}"
-              class="img-fluid rounded-3"
-              style="max-width: 150px;"
-            >
-          </div>
-       </div>
-
-        <div class="row mb-2">
-          <div class="col-4 fw-bold">Nombre:</div>
-          <div class="col-8">${pet.petName || '❓'}</div>
-        </div>
-
-        <div class="row mb-2">
-          <div class="col-4 fw-bold">Dueño:</div>
-          <div class="col-8">${pet.ownerName || '❓'}</div>
-        </div>
-
-        <div class="row mb-2">
-          <div class="col-4 fw-bold">Edad:</div>
-          <div class="col-8">${convertirEdad(pet.birthDate) ?? '❓'}</div>
-        </div>
-
-        <div class="row mb-2">
-          <div class="col-12">${pet.note || '❓'}</div>
-        </div>
-
-        <div class="row mt-3">
-          <div class="col-8 mx-auto d-flex justify-content-center align-items-center gap-5">
-            <a href="https://wa.me/${pet.contact}" target="_blank" 
-              class="d-inline-flex align-items-center justify-content-center rounded shadow text-white text-decoration-none"
-              style="background-color:#25D366; width: 45px; height: 45px;">
-              <i class="bi bi-whatsapp fs-1"></i>
-            </a>
-
-            <a href="tel:${limpiarTelefono(pet.contact)}" 
-              class="d-inline-flex align-items-center justify-content-center bg-primary rounded shadow text-white text-decoration-none"
-              style="width: 45px; height: 45px;">
-              <i class="bi bi-telephone-fill fs-1"></i>
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  `;
-
-  container.innerHTML = petHTML;
+  $nombreMascota.textContent = pet.petName;
+  $contactoMascota.textContent = pet.ownerName;
+  $edadMascota.textContent = convertirEdad(pet.birthDate);
+  $notaMascota.textContent = pet.note;
+  $imagenMascota.src = pet.petPicture;
+  $titulo.textContent = `${pet.petName}`;
+  numContacto = pet.contact;
 }
 
 function convertirEdad(fechaNacimientoStr) {
@@ -152,19 +123,4 @@ function limpiarTelefono(numero) {
     return numero.slice(3);
   }
   return numero;
-}
-
-
-function selectImage(img, petType) {
-
-  if (img) return img;
-
-  switch (petType.toLowerCase()) {
-    case 'perro':
-      return 'images/dog_avatar.png';
-    case 'gato':
-      return 'images/cat_avatar.png';
-    default:
-      return '-';
-  }
 }

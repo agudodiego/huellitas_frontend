@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Huellitas</title>
 
+  <!-- fontAwesome iconos-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Momo+Trust+Display&family=Poppins&display=swap" rel="stylesheet">
+
   <!-- archivo CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -15,28 +22,62 @@
   <div class="container">
 
     <!-- Imagen superior (A) -->
-     <!-- 720 × 512 px 72dpi -->
+    <!-- 720 × 512 px 72dpi -->
     <div class="image-section">
-      <img src="images/default2.jpg" alt="Mascota" />
+      <img id="imagen" src="images/default2.jpg" alt="Mascota" />
+      <div class="marca-agua">huellitas</div>
     </div>
 
     <!-- Panel intermedio (B) -->
     <div id="panelInfo" class="panel">
-      <p>Aca va la info de la mascota</p>
+      <p id="titulo" class="hidden">huellitas</p>
+      <div class="pet-card">
+        <div class="pet-row">
+          <span class="pet-label">NOMBRE:</span>
+          <span id="nombreMascota" class="pet-value">Huellitas</span>
+        </div>
+
+        <div class="pet-row">
+          <span class="pet-label">CONTACTO:</span>
+          <span id="contactoMascota" class="pet-value">Tu nombre</span>
+        </div>
+
+        <div class="pet-row">
+          <span class="pet-label">EDAD:</span>
+          <span id="edadMascota" class="pet-value">La edad de tu mascota</span>
+        </div>
+
+        <div class="pet-row pet-row-note">
+          <!-- <span class="pet-label">NOTA:</span> -->
+          <p id="notaMascota" class="pet-note">Aquí podemos mostrar algunas caracteristicas de tu mascota, como sus
+            gustos, sus miedos, que le gusta comer o cualquier otra cosa que se te ocurra.</p>
+        </div>
+      </div>
     </div>
 
     <!-- Panel inferior colapsable (C) -->
     <div id="panelColapsable" class="bottom-sheet collapsed">
       <div id="paw" class="tab">
-        <img src="images/paw.png" alt="Huella" />
+        <i id="paw" class="fa-solid fa-paw"></i>
       </div>
       <div class="content">
-        <p>Panel expandible con información adicional.</p>
+        <p class="texto-panel-colapsable">Comunicate con el contacto</p>
+        <div class="buttons hidden">
+          <div class="contactos">
+            <i id="whapp" class="fa-brands fa-whatsapp"></i>
+            <i id="phone" class="fa-solid fa-square-phone"></i>
+          </div>
+          <div class="info">
+            <i id="info" class="fa-solid fa-circle-info"></i>
+            <i id="dev" class="fa-brands fa-dev"></i>
+          </div>
+          <p class="conAmor">Hecho con ❤️ por los animalitos.</p>
+        </div>
       </div>
     </div>
 
-  <!-- archivo JS -->
-  <script defer src="app.js"></script>
+    <!-- archivo JS -->
+    <script defer src="app.js"></script>
 </body>
 
 </html>

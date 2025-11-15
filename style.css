@@ -6,13 +6,19 @@
 }
 
 /* === ESTILOS GENERALES === */
+:root{
+  --color-panel-colapsable: #212121;
+  --color-iconos-contactos: #6fcb9f;
+  --color-iconos-info: #9e379f;
+}
 body {
   background: #ccc;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  font-family: sans-serif;
+  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", sans-serif;
 }
 
 /* === CONTENEDOR PRINCIPAL === */
@@ -41,22 +47,100 @@ body {
   display: block;
 }
 
+/* Texto vertical como marca de agua */
+.marca-agua {
+  position: absolute;
+  top: 45%;
+  left: 0;
+  transform: translate(-35%, -50%) rotate(-90deg);
+  font-size: 50px;
+  font-family: "Momo Trust Display", cursive; /* usa el nombre que diga Google Fonts */
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 3px;
+  pointer-events: none;
+  user-select: none;
+}
+
+
 /* === PANEL INTERMEDIO (B) === */
+
+#titulo {
+  font-family: "Momo Trust Display", cursive; /* usa el nombre que diga Google Fonts */
+  font-weight: 400;
+  font-size: 30px;
+}
+
 .panel {
   position: relative;
   width: 100%;
   height: 70%;
-  background: rgba(209, 209, 209, 0.9); /* con leve transparencia */
+  background: #e0e5ec;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   padding: 1.2rem;
   margin-top: -20px; /* solapa sobre la imagen */
   z-index: 2;
 
-  /* 🌟 EFECTO VISUAL MEJORADO 🌟 */
+  /* 🌟 EFECTO VISUAL SOMBRA 🌟 */
   box-shadow: 0 -6px 12px rgba(0,0,0,0.25);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
+
+  /* Centramos el contenido */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* Caja interna con neumorfismo hacia adentro */
+.pet-card {
+  margin-top: 1rem;
+  padding: 1.8rem 2.2rem;
+  border-radius: 20px;
+  background: #e0e5ec; /* color base neutro para el neumorfismo */
+
+  /* 🌑 Neuromorfismo cóncavo (hacia adentro) */
+  box-shadow:
+    inset 8px 8px 16px #b8c0cc,
+    inset -8px -8px 16px #ffffff;
+
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* Filas de texto */
+.pet-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+/* Texto “NOMBRE:”, “EDAD:”, etc. */
+.pet-label {
+  font-family: "Momo Trust Display", cursive; /* usa el nombre que diga Google Fonts */
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+/* Valores dinámicos */
+.pet-value {
+  font-weight: 400;
+}
+
+/* Nota expandible */
+.pet-row-note {
+  align-items: flex-start;
+}
+
+.pet-note {
+  margin: 0;
+  flex: 1;
 }
 
 /* === PANEL INFERIOR (C) === */
@@ -64,8 +148,8 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 55%;
-  background: #111;
+  height: 50%;
+  background: var(--color-panel-colapsable);
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   transition: transform 0.4s ease;
@@ -82,7 +166,7 @@ body {
   width: 36px;
   height: 36px;
   background: #111;
-  border-radius: 50%;
+  border-radius: 50%; /* este valor permite tener mas o menos contenido*/
   display: flex;
   justify-content: center;
   align-items: center;
@@ -90,31 +174,35 @@ body {
   transition: transform 0.4s ease;
 }
 
-.bottom-sheet .tab img {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
+.bottom-sheet .tab #paw {
+  font-size: 25px;
+  color:white;
   transition: transform 0.7s ease;
 }
 
 /* 🔄 Giro de la huellita cuando el panel está expandido */
-.bottom-sheet.expanded .tab img {
+.bottom-sheet.expanded .tab #paw {
   transform: rotate(180deg);
+  color: var(--color-iconos-contactos);
 }
 
 /* Contenido interno del panel negro */
 .bottom-sheet .content {
   color: white;
   text-align: center;
-  padding: 2.5rem 1rem 1rem;
+  padding: 2rem 1rem 1rem;
   width: 100%;
+}
+
+.texto-panel-colapsable {
+  margin-bottom: 30px;
 }
 
 /* === COMPORTAMIENTO DEL PANEL INFERIOR === */
 
 /* Estado colapsado */
 .bottom-sheet.collapsed {
-  transform: translateY(80%);
+  transform: translateY(70%);
   /* ↑ Aumentar este valor (ej. 80%) para más cerrado
      o reducirlo (ej. 50%) para dejarlo más abierto */
 }
@@ -122,6 +210,56 @@ body {
 /* Estado expandido */
 .bottom-sheet.expanded {
   transform: translateY(0);
+}
+
+/* === SECCION CONTACTOS === */
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 35px;
+}
+
+/* Propiedades para el Neumorfismo */
+.contactos {
+ width: 250px;
+ height: 100px;
+ border-radius: 20px;
+ background: #212121;
+ box-shadow: 8px 8px 20px rgb(12, 12, 12),
+             -8px -8px 20px rgb(70, 70, 70);
+}
+
+.contactos, .info {
+  display: flex;
+  align-items: center;    /* Centrado horizontal */
+  justify-content: center;/* Centrado vertical */
+  gap: 60px;              /* Espacio entre iconos */
+}
+
+#whapp,
+#phone {
+  font-size: 50px;   /* tamaño del icono */
+  color: var(--color-iconos-contactos);      /* color inicial */
+  cursor: pointer;
+}
+
+#info,
+#dev {
+  font-size: 40px;   /* tamaño del icono */
+  color: var(--color-iconos-info);      /* color inicial */
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+.conAmor {
+  color: grey;
+  font-size: 12px;
 }
 
 /* === Adaptación móvil === */

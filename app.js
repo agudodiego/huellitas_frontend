@@ -17,7 +17,8 @@ const PIC_URL = 'https://huellitas.diegoagudo.com.ar/imagenes/'
 
 // ************************* EJECUCION PRINCIPAL ******************************
 
-const codigo = getCodigoFromUrl();
+const codigo = detectarCodigoPet();
+
 console.log('Código extraído de la URL:', codigo);
 if (!codigo) {
   // Dejo el html cargado con la mascota mock
@@ -61,11 +62,20 @@ $panelColapsable.addEventListener('click', (e) => {
 
 // ************************* FUNCIONES AUXILIARES ******************************
 
-function getCodigoFromUrl() {
-  // Extrae el último segmento del path
+function detectarCodigoPet() {
+  // 1) saco barras de inicio y fin
   const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
-  // Validamos solo caracteres seguros
-  return /^[A-Za-z0-9_-]+$/.test(path) ? path : null;
+
+  // 2) si el path NO es vacío y NO termina en .html,
+  //    entonces significa que es el código
+  if (path && !path.endsWith('.html')) {
+    sessionStorage.setItem('huellitas_pet_code', path);
+    return path;
+  }
+
+  // 3) si estoy en index.html, info.html, dev.html...
+  //    recupero lo último que guardé
+  return sessionStorage.getItem('huellitas_pet_code');
 }
 
 async function fetchPet(codigo) {

@@ -26,13 +26,34 @@
             <p>proximamente</p>
 
             <div class="info-actions">
-                <a href="index.html" class="info-back-btn">
+                <a id="btnVolver" href="index.html" class="info-back-btn">
                     <i class="fa-solid fa-arrow-left"></i>
                     Volver al inicio
                 </a>
             </div>
         </section>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('btnVolver');
+
+            btn.addEventListener('click', (e) => {
+                e.preventDefault(); // evita ir a index.html tal cual
+
+                // leemos el código guardado por detectarCodigoPet()
+                const codigo = sessionStorage.getItem('huellitas_pet_code');
+
+                if (codigo) {
+                    // volvemos a la URL original del QR
+                    window.location.href = `/${codigo}`;
+                } else {
+                    // fallback por si se accedió sin código
+                    window.location.href = '/index.html';
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

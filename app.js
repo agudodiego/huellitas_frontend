@@ -9,18 +9,25 @@ const $imagenMascota = document.getElementById("imagen");
 const $petCard = document.querySelector('.pet-card');
 const $titulo = document.getElementById('titulo');
 
-// ************************* EJECUCION PRINCIPAL ******************************
 let numContacto = null;
+let picturesArray = [];
+const PIC_URL = 'https://huellitas.diegoagudo.com.ar/imagenes/'
+
+// ************************* EJECUCION PRINCIPAL ******************************
+
 const codigo = getCodigoFromUrl();
 console.log('Código extraído de la URL:', codigo);
 if (!codigo) {
   // Dejo el html cargado con la mascota mock
-  mostrarMensaje('No se encontró el código en la URL.');
+  fetchPet('default');
+
+  
+  // mostrarMensaje('No se encontró el código en la URL.');
 } else {  
   fetchPet(codigo);
 }
 
-// ************************* MANEJO DE EVENTOS ******************************
+// ------- MANEJO DE EVENTOS -------
 
 $panelColapsable.addEventListener('click', (e) => {
 
@@ -65,11 +72,11 @@ async function fetchPet(codigo) {
   const API_URL = `https://huellitas.diegoagudo.com.ar/apiHuellitas/pet/${codigo}`; //borrar esta linea para produccion
   // const API_URL = `/apiHuellitas/pet/${codigo}`;
   try {
-    mostrarMensaje('Cargando datos...');
+    //mostrarMensaje('Cargando datos...');
     const res = await fetch(API_URL);
     if (!res.ok) throw new Error('Mascota no encontrada');
     const pet = await res.json();
-    // console.log(pet);
+    console.log(pet);
     displayPet(pet);
   } catch (err) {
     mostrarMensaje('Error al obtener los datos de la mascota.');
@@ -78,18 +85,31 @@ async function fetchPet(codigo) {
 }
 
 function mostrarMensaje(msg) {
-  const container = document.getElementById('petInfo');
+  const container = document.getElementById('panelInfo');
   if (container) container.innerHTML = `<div class="alert alert-info">${msg}</div>`;
 }
 
 function displayPet(pet) {
+
+  picturesArray = picturesToArray(pet.petPicture);
+  console.log('Array de imágenes:', picturesArray);
+
   $nombreMascota.textContent = pet.petName;
   $contactoMascota.textContent = pet.ownerName;
   $edadMascota.textContent = convertirEdad(pet.birthDate);
   $notaMascota.textContent = pet.note;
-  $imagenMascota.src = pet.petPicture;
+  $imagenMascota.src = PIC_URL + picturesArray[0];
   $titulo.textContent = `${pet.petName}`;
   numContacto = pet.contact;
+}
+
+function picturesToArray(cadena) {
+  if (!cadena || typeof cadena !== "string") return [];
+
+  return cadena
+    .split(",")          // separa por coma
+    .map(f => f.trim())  // saca espacios por las dudas
+    .filter(f => f !== ""); // evita vacíos
 }
 
 function convertirEdad(fechaNacimientoStr) {

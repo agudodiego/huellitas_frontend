@@ -100,17 +100,32 @@ body {
   padding: 1.8rem 2.2rem;
   border-radius: 20px;
   background: #e0e5ec; /* color base neutro para el neumorfismo */
-
-  /* 🌑 Neuromorfismo cóncavo (hacia adentro) */
-  box-shadow:
-    inset 8px 8px 16px #b8c0cc,
-    inset -8px -8px 16px #ffffff;
-
   width: 100%;
   max-width: 420px;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+
+    /* Estado inicial: sin neumorfismo */
+  box-shadow:
+    inset 0px 0px 0px #b8c0cc,
+    inset 0px 0px 0px #ffffff;
+
+  animation: hundirSombras 0.6s ease-out forwards;
+  animation-delay: 0.1s; /* ajustá este valor según tu panel */
+}
+
+@keyframes hundirSombras {
+  0% {
+    box-shadow:
+      inset 0px 0px 0px #b8c0cc,
+      inset 0px 0px 0px #ffffff;
+  }
+  100% {
+    box-shadow:
+      inset 8px 8px 16px #b8c0cc,
+      inset -8px -8px 16px #ffffff;
+  }
 }
 
 /* Filas de texto */
@@ -228,8 +243,28 @@ body {
  height: 100px;
  border-radius: 20px;
  background: #212121;
- box-shadow: 8px 8px 20px rgb(12, 12, 12),
-             -8px -8px 20px rgb(70, 70, 70);
+
+ /* Estado inicial casi plano */
+  box-shadow: 
+    0px 0px 0px rgb(12, 12, 12),
+    0px 0px 0px rgb(70, 70, 70);
+
+  /* Animación suave para "salir desde adentro" */
+  animation: levantarSombras 0.6s ease-out forwards;
+  animation-delay: 0.2s; /* ⬅️ Retardo */
+}
+
+@keyframes levantarSombras {
+  0% {
+    box-shadow:
+      0px 0px 0px rgb(12, 12, 12),
+      0px 0px 0px rgb(70, 70, 70);
+  }
+  100% {
+    box-shadow:
+      8px 8px 20px rgb(12, 12, 12),
+      -8px -8px 20px rgb(70, 70, 70);
+  }
 }
 
 .contactos, .info {

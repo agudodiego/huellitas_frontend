@@ -21,7 +21,7 @@ body {
                "Segoe UI", sans-serif;
 }
 
-/* === CONTENEDOR PRINCIPAL === */
+/* ====================================================================== CONTENEDOR PRINCIPAL === */
 .container {
   position: relative;
   width: 360px;
@@ -31,7 +31,7 @@ body {
   box-shadow: 0 0 15px rgba(0,0,0,0.4);
 }
 
-/* === SECCIÓN DE IMAGEN (A) === */
+/* ====================================================================== SECCIÓN DE IMAGEN (A) === */
 .image-section {
   position: relative;
   height: 40%;
@@ -63,7 +63,7 @@ body {
 }
 
 
-/* === PANEL INTERMEDIO (B) === */
+/* ====================================================================== PANEL INTERMEDIO (B) === */
 
 #titulo {
   font-family: "Momo Trust Display", cursive; /* usa el nombre que diga Google Fonts */
@@ -94,6 +94,30 @@ body {
   align-items: center;
 }
 
+.dots-container {
+  display: flex;
+  gap: 0.6rem;
+  margin: 0.1rem 0;
+  justify-content: center;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #bbb;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.dot:hover {
+  transform: scale(1.2);
+}
+
+.dot.active {
+  background: #444;
+}
+
 /* Caja interna con neumorfismo hacia adentro */
 .pet-card {
   margin-top: 1rem;
@@ -101,10 +125,11 @@ body {
   border-radius: 20px;
   background: #e0e5ec; /* color base neutro para el neumorfismo */
   width: 100%;
+  height: 55%;
   max-width: 420px;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.4rem;
 
     /* Estado inicial: sin neumorfismo */
   box-shadow:
@@ -138,7 +163,7 @@ body {
 
 /* Texto “NOMBRE:”, “EDAD:”, etc. */
 .pet-label {
-  font-family: "Momo Trust Display", cursive; /* usa el nombre que diga Google Fonts */
+  font-family: "Momo Trust Display", cursive;
   font-weight: 400;
   letter-spacing: 0.05em;
 }
@@ -158,7 +183,7 @@ body {
   flex: 1;
 }
 
-/* === PANEL INFERIOR (C) === */
+/* ====================================================================== PANEL INFERIOR (C) === */
 .bottom-sheet {
   position: absolute;
   bottom: 0;
@@ -299,10 +324,18 @@ body {
 
 /* === Adaptación móvil === */
 @media (max-width: 480px) {
+
   .container {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     border-radius: 0;
     box-shadow: none;
+  }
+
+    /* 🔹 En celus chicos, que solo la NOTA sea scrolleable */
+  .pet-row-note {
+    max-height: 120px;          /* ajustá este valor según te quede */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }

@@ -6,6 +6,7 @@ const $contactoMascota = document.getElementById("contactoMascota");
 const $edadMascota = document.getElementById("edadMascota");
 const $notaMascota = document.getElementById("notaMascota");
 const $imagenMascota = document.getElementById("imagen");
+const $galeriaDots = document.getElementById('galeriaDots');
 const $petCard = document.querySelector('.pet-card');
 const $titulo = document.getElementById('titulo');
 
@@ -20,9 +21,6 @@ console.log('Código extraído de la URL:', codigo);
 if (!codigo) {
   // Dejo el html cargado con la mascota mock
   fetchPet('default');
-
-  
-  // mostrarMensaje('No se encontró el código en la URL.');
 } else {  
   fetchPet(codigo);
 }
@@ -38,6 +36,7 @@ $panelColapsable.addEventListener('click', (e) => {
     $buttons.classList.toggle('hidden');
     $petCard.classList.toggle('hidden');
     $titulo.classList.toggle('hidden');
+    $galeriaDots.classList.toggle('hidden');
 
     return;
   }
@@ -76,7 +75,7 @@ async function fetchPet(codigo) {
     const res = await fetch(API_URL);
     if (!res.ok) throw new Error('Mascota no encontrada');
     const pet = await res.json();
-    console.log(pet);
+    // console.log(pet);
     displayPet(pet);
   } catch (err) {
     mostrarMensaje('Error al obtener los datos de la mascota.');
@@ -92,7 +91,8 @@ function mostrarMensaje(msg) {
 function displayPet(pet) {
 
   picturesArray = picturesToArray(pet.petPicture);
-  console.log('Array de imágenes:', picturesArray);
+  // console.log('Array de imágenes:', picturesArray);
+  cargarGaleria(picturesArray || []);
 
   $nombreMascota.textContent = pet.petName;
   $contactoMascota.textContent = pet.ownerName;
@@ -101,6 +101,29 @@ function displayPet(pet) {
   $imagenMascota.src = PIC_URL + picturesArray[0];
   $titulo.textContent = `${pet.petName}`;
   numContacto = pet.contact;
+}
+
+function cargarGaleria(imagenes) {
+  $galeriaDots.innerHTML = ""; // limpio por si cambia de mascota
+
+  imagenes.forEach((picName, index) => {
+    const dot = document.createElement("div");
+    dot.classList.add("dot");
+
+    // Primer circulito activo por defecto
+    if (index === 0) dot.classList.add("active");
+
+    dot.addEventListener("click", () => {
+      // Cambio la imagen principal
+      $imagenMascota.src = PIC_URL + picName;
+
+      // Actualizo los estilos activos
+      document.querySelectorAll(".dot").forEach(d => d.classList.remove("active"));
+      dot.classList.add("active");
+    });
+
+    $galeriaDots.appendChild(dot);
+  });
 }
 
 function picturesToArray(cadena) {

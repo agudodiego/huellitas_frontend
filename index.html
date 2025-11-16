@@ -18,6 +18,10 @@
 </head>
 
 <body>
+  <!-- LOADER -->
+  <div id="loader" class="loader-overlay hidden">
+    <i class="fa-solid fa-paw fa-3x paw-spin"></i>
+  </div>
 
   <div class="container">
 
@@ -31,7 +35,7 @@
     <!-- Panel intermedio (B) -->
     <div id="panelInfo" class="panel">
       <p id="titulo" class="hidden">Huellitas</p>
-      
+
       <div id="galeriaDots" class="dots-container"></div>
 
       <div class="pet-card">
@@ -70,8 +74,13 @@
             <i id="phone" class="fa-solid fa-square-phone"></i>
           </div>
           <div class="info">
-            <i id="info" class="fa-solid fa-circle-info"></i>
-            <i id="dev" class="fa-brands fa-dev"></i>
+            <a href="info.html" class="info-link">
+              <i id="info" class="fa-solid fa-circle-info"></i>
+            </a>
+            
+            <a href="dev.html" class="dev-link">
+              <i id="dev" class="fa-brands fa-dev"></i>
+            </a>
           </div>
           <p class="conAmor">Huellitas fue hecho con ❤️ por los animalitos.</p>
         </div>

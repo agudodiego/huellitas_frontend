@@ -175,7 +175,9 @@ body {
 
 /* Nota expandible */
 .pet-row-note {
-  align-items: flex-start;
+  max-height: 120px;        /* subilo a 150/180 si querés más alto */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .pet-note {
@@ -314,12 +316,47 @@ body {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .conAmor {
   color: grey;
   font-size: 12px;
+}
+
+/* ===== Loader pantalla completa ===== */
+
+.loader-overlay {
+  position: fixed;
+  inset: 0; /* top, right, bottom, left: 0 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(224, 229, 236, 0.85); 
+  backdrop-filter: blur(2px);
+  z-index: 9999; /* por encima de todo */
+}
+
+.paw-spin {
+  animation: pawrotate 1s linear infinite;
+  color: #ff7a66; /* tu color huellitas */
+}
+
+@keyframes pawrotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Ocultar scrollbar en navegadores basados en WebKit */
+.pet-row-note::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Ocultar scrollbar en Firefox */
+.pet-row-note {
+  scrollbar-width: none; 
 }
 
 /* === Adaptación móvil === */
@@ -330,12 +367,5 @@ body {
     min-height: 100vh;
     border-radius: 0;
     box-shadow: none;
-  }
-
-    /* 🔹 En celus chicos, que solo la NOTA sea scrolleable */
-  .pet-row-note {
-    max-height: 120px;          /* ajustá este valor según te quede */
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
   }
 }

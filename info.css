@@ -1,0 +1,93 @@
+/* === ESTILOS GENERALES PARA LA PÁGINA DEV === */
+:root {
+  --color-panel-colapsable: #212121;
+  --color-iconos-contactos: #6fcb9f;
+  --color-iconos-info: #9e379f;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #ccc;
+  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+}
+
+/* Contenedor principal de la página */
+.info-page {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Tarjeta central */
+.info-card {
+  background: #e0e5ec;
+  border-radius: 25px;
+  padding: 1.8rem 1.6rem;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Título con la misma fuente que el título del index */
+.info-title {
+  font-family: "Momo Trust Display", cursive;
+  font-weight: 400;
+  font-size: 2rem;
+  margin-bottom: 0.2rem;
+}
+
+/* Acciones (botón volver) */
+.info-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Botón volver al inicio */
+.info-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  border: none;
+  text-decoration: none;
+  background: var(--color-panel-colapsable);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.info-back-btn i {
+  font-size: 0.9rem;
+}
+
+.info-back-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.35);
+  background: #000;
+}
+
+/* Adaptación móvil */
+@media (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+
+  .info-card {
+    border-radius: 0.75rem;
+  }
+}

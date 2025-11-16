@@ -9,6 +9,7 @@ const $imagenMascota = document.getElementById("imagen");
 const $galeriaDots = document.getElementById('galeriaDots');
 const $petCard = document.querySelector('.pet-card');
 const $titulo = document.getElementById('titulo');
+const $loader = document.getElementById('loader');
 
 let numContacto = null;
 let picturesArray = [];
@@ -68,8 +69,11 @@ function getCodigoFromUrl() {
 }
 
 async function fetchPet(codigo) {
-  const API_URL = `https://huellitas.diegoagudo.com.ar/apiHuellitas/pet/${codigo}`; //borrar esta linea para produccion
-  // const API_URL = `/apiHuellitas/pet/${codigo}`;
+  
+  const API_URL = `/apiHuellitas/pet/${codigo}`;
+
+  showLoader();
+
   try {
     //mostrarMensaje('Cargando datos...');
     const res = await fetch(API_URL);
@@ -80,12 +84,9 @@ async function fetchPet(codigo) {
   } catch (err) {
     mostrarMensaje('Error al obtener los datos de la mascota.');
     console.error(err);
+  } finally {
+    hideLoader(); // 👈 se oculta siempre, haya error o no
   }
-}
-
-function mostrarMensaje(msg) {
-  const container = document.getElementById('panelInfo');
-  if (container) container.innerHTML = `<div class="alert alert-info">${msg}</div>`;
 }
 
 function displayPet(pet) {
@@ -101,6 +102,19 @@ function displayPet(pet) {
   $imagenMascota.src = PIC_URL + picturesArray[0];
   $titulo.textContent = `${pet.petName}`;
   numContacto = pet.contact;
+}
+
+function showLoader() {
+  if ($loader) $loader.classList.remove('hidden');
+}
+
+function hideLoader() {
+  if ($loader) $loader.classList.add('hidden');
+}
+
+function mostrarMensaje(msg) {
+  const container = document.getElementById('panelInfo');
+  if (container) container.innerHTML = `<div class="alert alert-info">${msg}</div>`;
 }
 
 function cargarGaleria(imagenes) {

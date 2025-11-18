@@ -79,8 +79,8 @@ function detectarCodigoPet() {
 }
 
 async function fetchPet(codigo) {
-  
-  const API_URL = `/apiHuellitas/pet/${codigo}`;
+  const API_URL = `https://huellitas.diegoagudo.com.ar/apiHuellitas/pet/default`;
+  // const API_URL = `/apiHuellitas/pet/${codigo}`;
 
   showLoader();
 
@@ -109,7 +109,9 @@ function displayPet(pet) {
   $contactoMascota.textContent = pet.ownerName;
   $edadMascota.textContent = convertirEdad(pet.birthDate);
   $notaMascota.textContent = pet.note;
-  $imagenMascota.src = PIC_URL + picturesArray[0];
+  $imagenMascota.src = picturesArray[0] 
+    ? PIC_URL + picturesArray[0] 
+    : "assets/noImage.png";
   $titulo.textContent = `${pet.petName}`;
   numContacto = pet.contact;
 }

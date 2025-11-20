@@ -60,6 +60,9 @@ body {
   letter-spacing: 3px;
   pointer-events: none;
   user-select: none;
+
+  /* BORDE REAL SIN AFECTAR TRANSPARENCIA */
+  -webkit-text-stroke: 1px grey;
 }
 
 
@@ -227,6 +230,16 @@ body {
 .bottom-sheet.expanded .tab #paw {
   transform: rotate(180deg);
   color: var(--color-iconos-contactos);
+}
+
+@keyframes paw-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* La animación solo corre cuando el panel está colapsado */
+.bottom-sheet.collapsed .tab {
+  animation: paw-bounce 1s ease-in-out 2s infinite;
 }
 
 /* Contenido interno del panel negro */

@@ -30,9 +30,12 @@ if (!codigo) {
 // ------- MANEJO DE EVENTOS -------
 
 $panelColapsable.addEventListener('click', (e) => {
+  const clickEnSheet = e.target.closest('.bottom-sheet');
+  const clickEnBoton = e.target.closest('.buttons i, .buttons a'); 
+  // <- aquí estás diciendo: íconos y links dentro de .buttons
 
-  // 1) Click en la pestaña (#paw)
-  if (e.target.closest('#paw')) {
+  // 1) Click en el panel inferior
+  if (clickEnSheet && !clickEnBoton) {
     $sheet.classList.toggle('expanded');
     $sheet.classList.toggle('collapsed');
     $buttons.classList.toggle('hidden');
@@ -94,6 +97,7 @@ async function fetchPet(codigo) {
   } catch (err) {
     mostrarMensaje('Error al obtener los datos de la mascota.');
     console.error(err);
+    $imagenMascota.src = "assets/noImage.png";
   } finally {
     hideLoader(); // 👈 se oculta siempre, haya error o no
   }

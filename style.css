@@ -24,8 +24,10 @@ body {
 /* ====================================================================== CONTENEDOR PRINCIPAL === */
 .container {
   position: relative;
-  width: 360px;
-  height: 640px;
+  width: 412px;
+  max-width: 100%;
+  height: 100vh;      /* ocupa toda la pantalla disponible */
+  max-height: 823px;  /* no excede el tamaño del celu deseado */
   background: #222;
   overflow: hidden;
   box-shadow: 0 0 15px rgba(0,0,0,0.4);
@@ -109,13 +111,13 @@ body {
   height: 14px;
   border-radius: 50%;
   background: #bbb;
-  cursor: pointer;
+  /* cursor: pointer; */
   transition: transform 0.2s, background 0.2s;
 }
 
-.dot:hover {
+/* .dot:hover {
   transform: scale(1.2);
-}
+} */
 
 .dot.active {
   background: #444;

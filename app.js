@@ -10,9 +10,11 @@ const $galeriaDots = document.getElementById('galeriaDots');
 const $petCard = document.querySelector('.pet-card');
 const $titulo = document.getElementById('titulo');
 const $loader = document.getElementById('loader');
+const $imageSection = document.querySelector('.image-section');
 
 let numContacto = null;
 let picturesArray = [];
+let currentImageIndex = 0; // índice de la imagen actual
 const PIC_URL = 'https://huellitas.diegoagudo.com.ar/imagenes/'
 
 // ************************* EJECUCION PRINCIPAL ******************************
@@ -106,7 +108,7 @@ async function fetchPet(codigo) {
 function displayPet(pet) {
 
   picturesArray = picturesToArray(pet.petPicture);
-  // console.log('Array de imágenes:', picturesArray);
+  currentImageIndex = 0;
   cargarGaleria(picturesArray || []);
 
   $nombreMascota.textContent = pet.petName;
@@ -140,21 +142,96 @@ function cargarGaleria(imagenes) {
     const dot = document.createElement("div");
     dot.classList.add("dot");
 
-    // Primer circulito activo por defecto
-    if (index === 0) dot.classList.add("active");
-
-    dot.addEventListener("click", () => {
-      // Cambio la imagen principal
-      $imagenMascota.src = PIC_URL + picName;
-
-      // Actualizo los estilos activos
-      document.querySelectorAll(".dot").forEach(d => d.classList.remove("active"));
+    // El circulito activo es el que coincide con currentImageIndex
+    if (index === currentImageIndex) {
       dot.classList.add("active");
-    });
+    }
 
     $galeriaDots.appendChild(dot);
   });
 }
+
+function changeImage(step) {
+  if (!picturesArray || picturesArray.length === 0) return;
+
+  // Muevo el índice (loop circular)
+  currentImageIndex = (currentImageIndex + step + picturesArray.length) % picturesArray.length;
+
+  // Cambio la imagen principal
+  $imagenMascota.src = PIC_URL + picturesArray[currentImageIndex];
+
+  // Actualizo el dot activo
+  const dots = $galeriaDots.querySelectorAll('.dot');
+  dots.forEach((dot, index) => {
+    dot.classList.toggle('active', index === currentImageIndex);
+  });
+}
+
+//****************************** SWIPE IMAGENES ********************************** */
+let startX = 0;
+let isSwiping = false;
+
+if ($imageSection) {
+  // --- Eventos táctiles (celu / tablet) ---
+  $imageSection.addEventListener('touchstart', handleTouchStart, { passive: true });
+  $imageSection.addEventListener('touchend', handleTouchEnd);
+
+  // --- Eventos de mouse (escritorio) ---
+  $imageSection.addEventListener('mousedown', handleMouseDown);
+  $imageSection.addEventListener('mouseup', handleMouseUp);
+  $imageSection.addEventListener('mouseleave', handleMouseLeave);
+}
+
+// Función común para arrancar el swipe
+function startSwipe(x) {
+  if (!picturesArray || picturesArray.length <= 1) return; // si hay 0 o 1 foto, no hago nada
+  startX = x;
+  isSwiping = true;
+}
+
+// Función común para terminar el swipe
+function endSwipe(x) {
+  if (!isSwiping) return;
+  isSwiping = false;
+
+  const diffX = x - startX;
+  const threshold = 50; // px mínimos para considerar swipe
+
+  if (Math.abs(diffX) > threshold) {
+    if (diffX < 0) {
+      // hacia la izquierda → siguiente imagen
+      changeImage(1);
+    } else {
+      // hacia la derecha → imagen anterior
+      changeImage(-1);
+    }
+  }
+}
+
+// ---- Táctil ----
+function handleTouchStart(e) {
+  startSwipe(e.touches[0].clientX);
+}
+
+function handleTouchEnd(e) {
+  endSwipe(e.changedTouches[0].clientX);
+}
+
+// ---- Mouse ----
+function handleMouseDown(e) {
+  if (e.button !== 0) return; // solo botón izquierdo
+  startSwipe(e.clientX);
+}
+
+function handleMouseUp(e) {
+  endSwipe(e.clientX);
+}
+
+function handleMouseLeave(e) {
+  if (!isSwiping) return;
+  endSwipe(e.clientX);
+}
+//****************************** FIN SWIPE IMAGENES ********************************** */
 
 function picturesToArray(cadena) {
   if (!cadena || typeof cadena !== "string") return [];
